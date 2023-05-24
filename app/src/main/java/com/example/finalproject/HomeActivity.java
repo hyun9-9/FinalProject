@@ -36,11 +36,11 @@ public class HomeActivity extends AppCompatActivity {
 
 
         nav_menu = findViewById(R.id.bottom_nav);
-        defaultFrag = new HomeFragment();
+        defaultFrag = new HomeFragment1();
         nav_menu.setSelectedItemId(R.id.home);
 
         bundle.putString("access_token",access_token);
-        HomeFragment homeFragment=new HomeFragment();
+        HomeFragment1 homeFragment=new HomeFragment1();
         homeFragment.setArguments(bundle);
         transaction.replace(R.id.mainFrame, homeFragment).commitAllowingStateLoss();
 
@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
                         FragmentTransaction transaction = manager.beginTransaction();
 
                         bundle.putString("access_token",access_token);
-                        HomeFragment homeFragment=new HomeFragment();
+                        HomeFragment1 homeFragment=new HomeFragment1();
                         homeFragment.setArguments(bundle);
                         transaction.replace(R.id.mainFrame, homeFragment).commit();
 
