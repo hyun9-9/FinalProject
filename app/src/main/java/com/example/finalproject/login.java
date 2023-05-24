@@ -53,22 +53,26 @@ public class login extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject( response );
                             JSONObject data_json=jsonObject.getJSONObject("data");
                             JSONObject User_json=data_json.getJSONObject("user");
+                            JSONObject Token_json=data_json.getJSONObject("token");
+
                             String Email=User_json.getString("email");
 
 
                             if(UserEmail.equals(Email)) {//로그인 성공시
 
-
-                                String Usermobile = User_json.getString( "mobile" );
+                                String access_token=Token_json.getString("access_token");
+                                String refresh_token=Token_json.getString("refresh_token");
+                                String User_mobile = User_json.getString( "mobile" );
                                 String UserName = User_json.getString( "name" );
 
                                 Toast.makeText( getApplicationContext(), String.format("%s님 환영합니다.", UserName), Toast.LENGTH_SHORT ).show();
                                 Intent intent = new Intent( login.this, MainActivity.class );
 
                                 intent.putExtra( "UserEmail", Email );
-                                intent.putExtra( "UserPwd", Usermobile );
+                                intent.putExtra( "User_mobile", User_mobile );
                                 intent.putExtra( "UserName", UserName );
-
+                                intent.putExtra( "access_token", access_token );
+                                intent.putExtra( "refresh_token", refresh_token );
                                 startActivity( intent );
 
                             } else {//로그인 실패시
