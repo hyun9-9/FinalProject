@@ -14,9 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -34,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, login.class);
             startActivity(intent);
         }else {
+
 
             Response.Listener<String> responseListener = new Response.Listener<String>() {
                 @Override
@@ -58,17 +56,54 @@ public class MainActivity extends AppCompatActivity {
 
 
                             dao.addProduct(newProduct);
-                            Log.e("name",jsonObject1.getString("id"));
+
                         }
 
-                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                        intent.putExtra( "UserEmail", UserEmail );
-                        intent.putExtra( "User_mobile", User_mobile );
-                        intent.putExtra( "UserName", UserName );
-                        intent.putExtra( "access_token", access_token );
-                        intent.putExtra( "refresh_token", refresh_token );
-                        //Log.d("token",access_token);
-                        startActivity( intent );
+
+                        Response.Listener<String> searchResponseListener = new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject( response );
+
+                                    Log.e("Test123",jsonObject.toString());
+                                    JSONArray data_json=jsonObject.getJSONArray("data");
+                                    Log.e("Test123",data_json.toString());
+                                    for(int i=0;i<data_json.length();i++){
+                                        // jsonObject1=data_json.getJSONObject(i);
+                                        //Log.e("Test123",jsonObject1.toString());
+                                        SearchRepository dao = SearchRepository.getInstance();
+                                        dao.addProduct(data_json.getString(i));
+
+                                        //Log.e("name",data_json.getString(i));
+                                    }
+                                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                                    intent.putExtra( "UserEmail", UserEmail );
+                                    intent.putExtra( "User_mobile", User_mobile );
+                                    intent.putExtra( "UserName", UserName );
+                                    intent.putExtra( "access_token", access_token );
+                                    intent.putExtra( "refresh_token", refresh_token );
+                                    //Log.d("token",access_token);
+                                    startActivity( intent );
+                                    //settingList();
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e("err","Search json err");
+                                    Intent intent = new Intent(MainActivity.this, errorActivity.class);
+                                    intent.putExtra( "UserEmail", UserEmail );
+                                    intent.putExtra( "User_mobile", User_mobile );
+                                    intent.putExtra( "UserName", UserName );
+                                    intent.putExtra( "access_token", access_token );
+                                    intent.putExtra( "refresh_token", refresh_token );
+                                    startActivity( intent );
+                                }
+                            }
+                        };
+
+                        SearchRequest searchRequest = new SearchRequest( access_token, searchResponseListener );
+                        RequestQueue searchqueue = Volley.newRequestQueue( MainActivity.this );
+                        searchqueue.add( searchRequest );
 
                     } catch (JSONException e) {
                         e.printStackTrace();

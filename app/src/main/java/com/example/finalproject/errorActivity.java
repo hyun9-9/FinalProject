@@ -28,6 +28,7 @@ ImageButton imageButton;
         String UserName = get_intent.getStringExtra("UserName");
         String refresh_token=get_intent.getStringExtra("refresh_token");
         String access_token=get_intent.getStringExtra("access_token");
+
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -35,10 +36,12 @@ ImageButton imageButton;
                     JSONObject jsonObject = new JSONObject( response );
                     Log.e("Test123",jsonObject.toString());
                     JSONArray data_json=jsonObject.getJSONArray("data");
+                    ProductRepository dao = ProductRepository.getInstance();
+                    dao.clearlist();
                     for(int i=0;i<data_json.length();i++){
                         JSONObject jsonObject1=data_json.getJSONObject(i);
 
-                        ProductRepository dao = ProductRepository.getInstance();
+
                         Product newProduct = new Product();
                         newProduct.setProductId(jsonObject1.getString("id"));
                         newProduct.setPname(jsonObject1.getString("name"));
@@ -54,15 +57,51 @@ ImageButton imageButton;
                         Log.e("name",jsonObject1.getString("id"));
                     }
 
-                    Intent intent = new Intent(errorActivity.this, HomeActivity.class);
-                    intent.putExtra( "UserEmail", UserEmail );
-                    intent.putExtra( "User_mobile", User_mobile );
-                    intent.putExtra( "UserName", UserName );
-                    intent.putExtra( "access_token", access_token );
-                    intent.putExtra( "refresh_token", refresh_token );
-                    //Log.d("token",access_token);
-                    startActivity( intent );
-                    finish();
+                    Response.Listener<String> searchResponseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject( response );
+                                SearchRepository dao = SearchRepository.getInstance();
+                                dao.clearlist();
+                                Log.e("Test123",jsonObject.toString());
+                                JSONArray data_json=jsonObject.getJSONArray("data");
+                                Log.e("Test123",data_json.toString());
+                                for(int i=0;i<data_json.length();i++){
+                                    // jsonObject1=data_json.getJSONObject(i);
+                                    //Log.e("Test123",jsonObject1.toString());
+
+                                    dao.addProduct(data_json.getString(i));
+                                }
+                                Intent intent = new Intent(errorActivity.this, HomeActivity.class);
+                                intent.putExtra( "UserEmail", UserEmail );
+                                intent.putExtra( "User_mobile", User_mobile );
+                                intent.putExtra( "UserName", UserName );
+                                intent.putExtra( "access_token", access_token );
+                                intent.putExtra( "refresh_token", refresh_token );
+                                //Log.d("token",access_token);
+                                startActivity( intent );
+                                //settingList();
+                                finish();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.e("err","Search json err");
+                                Intent intent = new Intent(errorActivity.this, errorActivity.class);
+                                intent.putExtra( "UserEmail", UserEmail );
+                                intent.putExtra( "User_mobile", User_mobile );
+                                intent.putExtra( "UserName", UserName );
+                                intent.putExtra( "access_token", access_token );
+                                intent.putExtra( "refresh_token", refresh_token );
+                                startActivity( intent );
+                                finish();
+                            }
+                        }
+                    };
+
+                    SearchRequest searchRequest = new SearchRequest( access_token, searchResponseListener );
+                    RequestQueue searchqueue = Volley.newRequestQueue( errorActivity.this );
+                    searchqueue.add( searchRequest );
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e("err","json err");

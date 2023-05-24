@@ -33,5 +33,7 @@ public class ProductRepository {
     public void removeProduct(Product product) {
         listOfProducts.remove(product);
     }
-
+    public void clearlist(){
+        listOfProducts.clear();
+    }
 }
