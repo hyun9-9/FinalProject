@@ -14,6 +14,8 @@ import android.widget.GridView;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -99,6 +101,13 @@ public class SearchFragment1 extends Fragment {
         String access_token = bundle.getString("access_token");
         list = new ArrayList<String>();
 
+        ArrayList<String> testDataSet = new ArrayList<>();
+        RecyclerView recyclerView = frag_view.findViewById(R.id.listView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(frag_view.getContext(),RecyclerView.HORIZONTAL,false);
+        recyclerView.setLayoutManager(linearLayoutManager);  // LayoutManager 설정
+        CustomAdapter customAdapter = new CustomAdapter(testDataSet);
+        recyclerView.setAdapter(customAdapter); // 어댑터 설정
+
         gridView = (GridView) frag_view.findViewById(R.id.gridView);
         searchView = frag_view.findViewById(R.id.search);
         context = container.getContext();
@@ -116,9 +125,19 @@ public class SearchFragment1 extends Fragment {
 //                                Intent intent =new Intent(getActivity(),ProductActivity.class);
 //                                intent.putExtra("id",l_id.get(position));
 //                                startActivity(intent);
+                testDataSet.add(list.get(position));
+                customAdapter.notifyDataSetChanged();
             }
         });
-
+        customAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClicked(int position, String data) {
+                Log.e("position", String.valueOf(position));
+                testDataSet.remove(position);
+                customAdapter.notifyDataSetChanged();
+            }
+        });
+        //==========================================================
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
