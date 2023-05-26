@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
                         FragmentTransaction transaction = manager.beginTransaction();
 
                         bundle.putString("access_token",access_token);
-                        SearchFragment searchFragment=new SearchFragment();
+                        SearchFragment1 searchFragment=new SearchFragment1();
                         searchFragment.setArguments(bundle);
                         transaction.replace(R.id.mainFrame, searchFragment).commit();
 //                        bundle.putSerializable("list", settingList.getlist());
