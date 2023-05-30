@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/imagecorner"
-    android:elevation="20dp"
-    android:orientation="vertical"
-    >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+
+    android:elevation="30dp">
 
         <ImageView
+            android:elevation="30dp"
             android:id="@+id/bestImage"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="match_parent"
             android:scaleType="fitXY"/>
+
         <TextView
+            android:textStyle="bold"
+
             android:id="@+id/bestname"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoSizeTextType="uniform"
             android:ellipsize="end"
             android:text="name"/>
         <TextView
+            android:layout_marginTop="20dp"
             android:id="@+id/bestintroduction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,6 +31,7 @@
             android:text="introduction"/>
 
         <TextView
+            android:layout_marginTop="40dp"
             android:id="@+id/besttime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,6 +39,7 @@
             android:ellipsize="end"
             android:text="time"/>
         <TextView
+            android:layout_marginTop="60dp"
             android:id="@+id/bestcalorie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,6 +47,7 @@
             android:ellipsize="end"
             android:text="calorie"/>
         <TextView
+            android:layout_marginTop="80dp"
             android:id="@+id/bestcapacity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,11 +55,14 @@
             android:ellipsize="end"
             android:text="capacity"/>
         <TextView
+            android:layout_marginTop="100dp"
             android:id="@+id/bestdifficulty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoSizeTextType="uniform"
             android:ellipsize="end"
             android:text="difficulty"/>
-        </LinearLayout>
-</LinearLayout>
+
+
+
+</RelativeLayout>
