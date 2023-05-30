@@ -58,7 +58,7 @@ public class SearchFragment1 extends Fragment {
     private SearchView searchView;//검색창
 
     private ImageButton imageBut;//태그 검색 버튼
-
+    private boolean tagbool=false;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -158,8 +158,15 @@ public class SearchFragment1 extends Fragment {
 //                                Intent intent =new Intent(getActivity(),ProductActivity.class);
 //                                intent.putExtra("id",l_id.get(position));
 //                                startActivity(intent);
-                testDataSet.add(list.get(position));
-                customAdapter.notifyDataSetChanged();
+                if(tagbool==false) {
+                    testDataSet.add(list.get(position));
+                    customAdapter.notifyDataSetChanged();
+                }else {
+                    //                                Log.d(TAG, "여기야 : "+l_id.get(position));
+//                                Intent intent =new Intent(getActivity(),ProductActivity.class);
+//                                intent.putExtra("id",l_id.get(position));
+//                                startActivity(intent);
+                }
             }
         });
         customAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
@@ -186,6 +193,7 @@ public class SearchFragment1 extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 adapter = new SearchAdapter(list, container.getContext());
                 gridView.setAdapter(adapter);
+                tagbool=false;
                 search(newText);
                 return false;
             }
@@ -227,10 +235,10 @@ public class SearchFragment1 extends Fragment {
                                 //Log.e("name",data_json.getString(i));
                             }
 
-                            tagAdapter = new SearchTagAdapter(jsonname, container.getContext());
+                            tagAdapter = new SearchTagAdapter(jsonname,jsonintroduction,jsontime, jsoncalorie,jsoncapacity,jsondifficulty,jsonimage_link,container.getContext());
                             gridView.setAdapter(tagAdapter);
 
-
+                            tagbool=true;
                             //Log.d("token",access_token);
 
                         } catch (JSONException e) {
