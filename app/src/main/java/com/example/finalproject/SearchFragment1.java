@@ -3,6 +3,7 @@ package com.example.finalproject;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -39,15 +41,23 @@ public class SearchFragment1 extends Fragment {
     Context context;
 
 
-    //private ListView listView;          // 검색을 보여줄 리스트변수
-
+    private List<String> jsonId;          // 검색을 보여줄 리스트변수
+    private List<String> jsonname;
+    private List<String> jsonintroduction;
+    private List<String> jsontime;
+    private List<String> jsoncalorie;
+    private List<String> jsoncapacity;
+    private List<String> jsondifficulty;
+    private List<String> jsonimage_link;
     private GridView gridView;
     private EditText editSearch;        // 검색어를 입력할 Input 창
     private SearchAdapter adapter;      // 리스트뷰에 연결할 아답터
+    private SearchTagAdapter tagAdapter;
+    private ArrayList<String> arraylist;//전체리스트 저장
 
-    private ArrayList<String> arraylist;
+    private SearchView searchView;//검색창
 
-    private SearchView searchView;
+    private ImageButton imageBut;//태그 검색 버튼
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -97,9 +107,21 @@ public class SearchFragment1 extends Fragment {
         View frag_view = inflater.inflate(R.layout.fragment_search, container, false);
         //editSearch = (EditText) frag_view.findViewById(R.id.editSearch);
         //listView = (ListView) frag_view.findViewById(R.id.listView);
+
         Bundle bundle = getArguments();
         String access_token = bundle.getString("access_token");
+
+        jsonId=new ArrayList<>();
+        jsonname=new ArrayList<>();
+        jsonintroduction=new ArrayList<>();
+        jsontime=new ArrayList<>();
+        jsoncalorie=new ArrayList<>();
+        jsoncapacity=new ArrayList<>();
+        jsondifficulty=new ArrayList<>();
+        jsonimage_link=new ArrayList<>();
+
         list = new ArrayList<String>();
+        imageBut =frag_view.findViewById(R.id.imagebut);
 
         ArrayList<String> testDataSet = new ArrayList<>();
         RecyclerView recyclerView = frag_view.findViewById(R.id.listView);
@@ -118,6 +140,17 @@ public class SearchFragment1 extends Fragment {
         arraylist.addAll(list);
         adapter = new SearchAdapter(list, container.getContext());
         gridView.setAdapter(adapter);
+
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("search","click");
+                adapter = new SearchAdapter(list, container.getContext());
+                gridView.setAdapter(adapter);
+            }
+        });
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -139,6 +172,8 @@ public class SearchFragment1 extends Fragment {
         });
         //==========================================================
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+
             @Override
             public boolean onQueryTextSubmit(String query) {
 
@@ -149,12 +184,76 @@ public class SearchFragment1 extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
+                adapter = new SearchAdapter(list, container.getContext());
+                gridView.setAdapter(adapter);
                 search(newText);
                 return false;
             }
         });
+        imageBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Response.Listener<String> searchTagResponseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            jsonId.clear();
+                            jsonname.clear();
+                            jsonintroduction.clear();
+                            jsontime.clear();
+                            jsoncalorie.clear();
+                            jsoncapacity.clear();
+                            jsondifficulty.clear();
+                            jsonimage_link.clear();
+                            JSONObject jsonObject = new JSONObject( response );
+
+                            Log.e("Test123",jsonObject.toString());
+                            JSONArray data_json=jsonObject.getJSONArray("data");
+                            //Log.e("Test123",data_json.toString());
+                            for(int i=0;i<data_json.length();i++){
+                                JSONObject jsonObject1=data_json.getJSONObject(i);
+                                // jsonObject1=data_json.getJSONObject(i);
+                                //Log.e("Test123",jsonObject1.toString());
+                                jsonId.add(jsonObject1.getString("id"));
+                                jsonname.add(jsonObject1.getString("name"));
+                                jsonintroduction.add(jsonObject1.getString("introduction"));
+                                jsontime.add(jsonObject1.getString("time"));
+                                jsoncalorie.add(jsonObject1.getString("calorie"));
+                                jsoncapacity.add(jsonObject1.getString("capacity"));
+                                jsondifficulty.add(jsonObject1.getString("difficulty"));
+                                jsonimage_link.add(jsonObject1.getString("image_link"));
+
+                                //Log.e("name",data_json.getString(i));
+                            }
+
+                            tagAdapter = new SearchTagAdapter(jsonname, container.getContext());
+                            gridView.setAdapter(tagAdapter);
+
+
+                            //Log.d("token",access_token);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("err","Searchtag json err");
+                        }
+                    }
+                };
+
+                String dataset="";
+
+                for(int i=0;i<testDataSet.size();i++){
+                    if(i>0&&i<testDataSet.size()){
+                        dataset+="&";
+                    }
+                    dataset+="ingredients[]="+testDataSet.get(i);
+                }
+                Log.e("tagck",dataset);
+                SearchTagRequest searchTagRequest = new SearchTagRequest( access_token, searchTagResponseListener,dataset );
+                RequestQueue searchqueue = Volley.newRequestQueue( frag_view.getContext() );
+                searchqueue.add( searchTagRequest );
+            }
+        });
 
         return frag_view;
 
