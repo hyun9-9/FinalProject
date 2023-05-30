@@ -183,6 +183,7 @@ public class HomeFragment1 extends Fragment {
                 if(i==0) {
                     bestImage.setImageBitmap(bitmap);
 //                    bestImage.clipToOutline = true;
+
                 }
                 else {
                     item_image[i-1].setImageBitmap(bitmap);
@@ -192,6 +193,8 @@ public class HomeFragment1 extends Fragment {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+
         }
         return frag_view;
     }

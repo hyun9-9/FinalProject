@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -58,7 +59,7 @@ public class SearchFragment1 extends Fragment {
     private SearchView searchView;//검색창
 
     private ImageButton imageBut;//태그 검색 버튼
-    private boolean tagbool=false;
+    private boolean tagbool = false;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -111,21 +112,21 @@ public class SearchFragment1 extends Fragment {
         Bundle bundle = getArguments();
         String access_token = bundle.getString("access_token");
 
-        jsonId=new ArrayList<>();
-        jsonname=new ArrayList<>();
-        jsonintroduction=new ArrayList<>();
-        jsontime=new ArrayList<>();
-        jsoncalorie=new ArrayList<>();
-        jsoncapacity=new ArrayList<>();
-        jsondifficulty=new ArrayList<>();
-        jsonimage_link=new ArrayList<>();
+        jsonId = new ArrayList<>();
+        jsonname = new ArrayList<>();
+        jsonintroduction = new ArrayList<>();
+        jsontime = new ArrayList<>();
+        jsoncalorie = new ArrayList<>();
+        jsoncapacity = new ArrayList<>();
+        jsondifficulty = new ArrayList<>();
+        jsonimage_link = new ArrayList<>();
 
         list = new ArrayList<String>();
-        imageBut =frag_view.findViewById(R.id.imagebut);
+        imageBut = frag_view.findViewById(R.id.imagebut);
 
         ArrayList<String> testDataSet = new ArrayList<>();
         RecyclerView recyclerView = frag_view.findViewById(R.id.listView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(frag_view.getContext(),RecyclerView.HORIZONTAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(frag_view.getContext(), RecyclerView.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);  // LayoutManager 설정
         CustomAdapter customAdapter = new CustomAdapter(testDataSet);
         recyclerView.setAdapter(customAdapter); // 어댑터 설정
@@ -145,7 +146,7 @@ public class SearchFragment1 extends Fragment {
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("search","click");
+                Log.e("search", "click");
                 adapter = new SearchAdapter(list, container.getContext());
                 gridView.setAdapter(adapter);
             }
@@ -158,14 +159,19 @@ public class SearchFragment1 extends Fragment {
 //                                Intent intent =new Intent(getActivity(),ProductActivity.class);
 //                                intent.putExtra("id",l_id.get(position));
 //                                startActivity(intent);
-                if(tagbool==false) {
+                if (tagbool == false) {
                     testDataSet.add(list.get(position));
                     customAdapter.notifyDataSetChanged();
-                }else {
+                } else {
                     //                                Log.d(TAG, "여기야 : "+l_id.get(position));
-//                                Intent intent =new Intent(getActivity(),ProductActivity.class);
-//                                intent.putExtra("id",l_id.get(position));
-//                                startActivity(intent);
+                    Intent intent = new Intent(getActivity(), RecipeActivity.class);
+                    intent.putExtra("id", jsonId.get(position));
+                    intent.putExtra("recipeimage", jsonimage_link.get(position));
+                    intent.putExtra("recipename", jsonname.get(position));
+                    intent.putExtra("recipetime", jsontime.get(position));
+                    intent.putExtra("recipedifficulty", jsondifficulty.get(position));
+                    intent.putExtra("access_token", access_token);
+                    startActivity(intent);
                 }
             }
         });
@@ -193,7 +199,7 @@ public class SearchFragment1 extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 adapter = new SearchAdapter(list, container.getContext());
                 gridView.setAdapter(adapter);
-                tagbool=false;
+                tagbool = false;
                 search(newText);
                 return false;
             }
@@ -214,13 +220,13 @@ public class SearchFragment1 extends Fragment {
                             jsoncapacity.clear();
                             jsondifficulty.clear();
                             jsonimage_link.clear();
-                            JSONObject jsonObject = new JSONObject( response );
+                            JSONObject jsonObject = new JSONObject(response);
 
-                            Log.e("Test123",jsonObject.toString());
-                            JSONArray data_json=jsonObject.getJSONArray("data");
+                            Log.e("Test123", jsonObject.toString());
+                            JSONArray data_json = jsonObject.getJSONArray("data");
                             //Log.e("Test123",data_json.toString());
-                            for(int i=0;i<data_json.length();i++){
-                                JSONObject jsonObject1=data_json.getJSONObject(i);
+                            for (int i = 0; i < data_json.length(); i++) {
+                                JSONObject jsonObject1 = data_json.getJSONObject(i);
                                 // jsonObject1=data_json.getJSONObject(i);
                                 //Log.e("Test123",jsonObject1.toString());
                                 jsonId.add(jsonObject1.getString("id"));
@@ -235,31 +241,31 @@ public class SearchFragment1 extends Fragment {
                                 //Log.e("name",data_json.getString(i));
                             }
 
-                            tagAdapter = new SearchTagAdapter(jsonname,jsonintroduction,jsontime, jsoncalorie,jsoncapacity,jsondifficulty,jsonimage_link,container.getContext());
+                            tagAdapter = new SearchTagAdapter(jsonname, jsonintroduction, jsontime, jsoncalorie, jsoncapacity, jsondifficulty, jsonimage_link, container.getContext());
                             gridView.setAdapter(tagAdapter);
 
-                            tagbool=true;
+                            tagbool = true;
                             //Log.d("token",access_token);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("err","Searchtag json err");
+                            Log.e("err", "Searchtag json err");
                         }
                     }
                 };
 
-                String dataset="";
+                String dataset = "";
 
-                for(int i=0;i<testDataSet.size();i++){
-                    if(i>0&&i<testDataSet.size()){
-                        dataset+="&";
+                for (int i = 0; i < testDataSet.size(); i++) {
+                    if (i > 0 && i < testDataSet.size()) {
+                        dataset += "&";
                     }
-                    dataset+="ingredients[]="+testDataSet.get(i);
+                    dataset += "ingredients[]=" + testDataSet.get(i);
                 }
-                Log.e("tagck",dataset);
-                SearchTagRequest searchTagRequest = new SearchTagRequest( access_token, searchTagResponseListener,dataset );
-                RequestQueue searchqueue = Volley.newRequestQueue( frag_view.getContext() );
-                searchqueue.add( searchTagRequest );
+                Log.e("tagck", dataset);
+                SearchTagRequest searchTagRequest = new SearchTagRequest(access_token, searchTagResponseListener, dataset);
+                RequestQueue searchqueue = Volley.newRequestQueue(frag_view.getContext());
+                searchqueue.add(searchTagRequest);
             }
         });
 
