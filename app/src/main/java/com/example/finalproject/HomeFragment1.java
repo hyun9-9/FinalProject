@@ -60,7 +60,7 @@ public class HomeFragment1 extends Fragment {
     public TextView[] item_capacity;
     public TextView[] item_difficulty;
     public ImageView[] item_image;
-
+    String access_token;
     public HomeFragment1() {
         // Required empty public constructor
     }
@@ -98,8 +98,10 @@ public class HomeFragment1 extends Fragment {
         View frag_view = inflater.inflate(R.layout.fragment_home,container,false);
         // Inflate the layout for this fragment
         Bundle bundle = getArguments();
-        String access_token = bundle.getString("access_token");
+        access_token = bundle.getString("access_token");
        // gridView = (GridView) frag_view.findViewById(R.id.gridView);
+
+        BtnOnClick btnOnClick=  new BtnOnClick();
 
         Integer listview[]={R.id.list1,R.id.list2,R.id.list3,R.id.list4};
         View list[]=new View[4];
@@ -119,12 +121,14 @@ public class HomeFragment1 extends Fragment {
             item_capacity[i] = (TextView) list[i].findViewById(R.id.capacity);
             item_difficulty[i] = (TextView) list[i].findViewById(R.id.difficulty);
             item_image[i]= (ImageView) list[i].findViewById(R.id.Image);
+            list[i].setOnClickListener(btnOnClick);
         }
 
         final View best = frag_view.findViewById(R.id.best);
         bestImage=best.findViewById(R.id.bestImage);
         bestname=best.findViewById(R.id.bestname);
         bestintroduction=best.findViewById(R.id.bestintroduction);
+        best.setOnClickListener(btnOnClick);
 //        besttime=best.findViewById(R.id.besttime);
 //        bestcalorie=best.findViewById(R.id.bestcalorie);
 //        bestcapacity=best.findViewById(R.id.bestcapacity);
@@ -197,5 +201,46 @@ public class HomeFragment1 extends Fragment {
 
         }
         return frag_view;
+    }
+    class BtnOnClick implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            ProductRepository dao = ProductRepository.getInstance();
+            ArrayList<Product> listOfProducts = dao.getAllProducts();
+            int num=-1;
+            switch (v.getId()) {
+                case R.id.best:
+                    // btn1 동작
+                    num=0;
+                    break;
+                case R.id.list1:
+                    // btn2 동작
+                    num=1;
+
+                    break;
+                case R.id.list2:
+                    // btn2 동작
+                    num=2;
+                    break;
+                case R.id.list3:
+                    // btn2 동작
+                    num=3;
+                    break;
+                case R.id.list4:
+                    // btn2 동작
+                    num=4;
+                    break;
+
+            }
+            Intent intent = new Intent(getActivity(), RecipeActivity.class);
+            Product product = listOfProducts.get(num);
+            intent.putExtra("id", product.getProductId());
+            intent.putExtra("recipeimage", product.getimage_link());
+            intent.putExtra("recipename", product.getPname());
+            intent.putExtra("recipetime",product.gettime());
+            intent.putExtra("recipedifficulty", product.getdifficulty());
+            intent.putExtra("access_token", access_token);
+            startActivity(intent);
+        }
     }
 }

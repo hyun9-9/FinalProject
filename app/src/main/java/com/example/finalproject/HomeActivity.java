@@ -80,8 +80,19 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     }
                     case R.id.profile: {
+                        Bundle bundle = new Bundle();
+                        FragmentManager manager = getSupportFragmentManager();
+                        FragmentTransaction transaction = manager.beginTransaction();
 
-                        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, new ProfileFragment()).commit();
+                        bundle.putString("access_token",access_token);
+                        bundle.putString("UserEmail",UserEmail);
+                        bundle.putString("User_mobile",User_mobile);
+                        bundle.putString("UserName",UserName);
+                        ProfileFragment profileFragment=new ProfileFragment();
+                        profileFragment.setArguments(bundle);
+                        transaction.replace(R.id.mainFrame, profileFragment).commit();
+
+                        //getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, new ProfileFragment()).commit();
                         return true;
                     }
 

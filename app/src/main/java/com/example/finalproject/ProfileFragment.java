@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +25,7 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    TextView name,email,mobile;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -58,7 +60,20 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View frag_view = inflater.inflate(R.layout.fragment_profile, container, false);
+        Bundle bundle = getArguments();
+        String access_token = bundle.getString("access_token");
+        String UserEmail =bundle.getString("UserEmail");
+        String User_mobile =bundle.getString("User_mobile");
+        String UserName =bundle.getString("UserName");
+
+        name=frag_view.findViewById(R.id.name);
+        email=frag_view.findViewById(R.id.email);
+        mobile=frag_view.findViewById(R.id.mobile);
+        name.setText("성함 : "+UserName);
+        email.setText("이메일 : "+UserEmail);
+        mobile.setText("전화번호 : "+User_mobile);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return frag_view;
     }
 }
