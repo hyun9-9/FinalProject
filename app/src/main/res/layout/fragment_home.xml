@@ -28,51 +28,65 @@
 <!--        android:horizontalSpacing="10dp"-->
 <!--        android:verticalSpacing="20dp"-->
 <!--         />-->
+
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:orientation="vertical"
-            android:layout_marginBottom="50dp">
+            android:layout_height="50dp">
 
 
             <TextView
+                android:layout_marginLeft="25dp"
+                android:backgroundTint="#66B2ff"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:shadowColor="#000000"
-
-                android:shadowDx="2.0"
-                android:shadowDy="4.0"
-                android:shadowRadius="7.0"
-
                 android:text="Best menu"
-                android:textColor="#000000"
-                android:textSize="30sp"
-                android:textStyle="bold|italic"
-                android:typeface="serif" />
+                android:textSize="30dp"
 
-            <include layout="@layout/bestlistview"
-            android:layout_gravity="center"
-            android:layout_marginTop="25dp"
-            android:id="@+id/best"
-            android:layout_width="370dp"
-            android:layout_height="280dp"
+                android:textColor="#66B2ff"
+                android:shadowColor="#33000000"
+                android:shadowDx="7.0"
+                android:shadowDy="7.0"
+                android:shadowRadius="2.0" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="390dp"
+            android:layout_height="340dp"
+            android:orientation="vertical"
 
-            />
+            android:background="@drawable/round_border"
+            >
+
+            <include
+                android:id="@+id/best"
+
+                layout="@layout/bestlistview"
+                android:layout_width="370dp"
+                android:layout_height="314dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+
+                />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <TextView
-                android:textColor="#000000"
-                android:textStyle="bold|italic"
-                android:typeface="serif"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="25dp"
+                android:backgroundTint="#66B2ff"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="People also like"
-                android:textSize="30sp"/>
+                android:textSize="30dp"
+
+                android:textColor="#66B2ff"
+                android:shadowColor="#33000000"
+                android:shadowDx="7.0"
+                android:shadowDy="7.0"
+                android:shadowRadius="2.0"
+              />
 
         </LinearLayout>
 
@@ -82,14 +96,17 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
 
+            android:padding="10dp"
+
             >
 
             <include
+
                 android:id="@+id/list1"
                 layout="@layout/listview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginBottom="10dp"
                 />
 
             <include
@@ -97,7 +114,7 @@
             android:id="@+id/list2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+                android:layout_marginBottom="10dp"
             />
 
             <include
@@ -105,14 +122,14 @@
                 android:id="@+id/list3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginBottom="10dp"
                 />
             <include
                 layout="@layout/listview"
                 android:id="@+id/list4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginBottom="10dp"
                 />
         </LinearLayout>
         <LinearLayout

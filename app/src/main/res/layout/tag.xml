@@ -2,16 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/colorGray"
+    android:background="@drawable/round_btn"
     android:layout_margin="5dp">
 <TextView
     android:id="@+id/textView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="tag"
+android:paddingLeft="10dp"
+
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:text="123456"
+    android:gravity="center"
+    android:textAlignment="center"
+    android:textColor="#ffffff"
     />
     <ImageView
+
         android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_height="30dp"
         android:src="@drawable/baseline_clear_24"/>
 </LinearLayout>
