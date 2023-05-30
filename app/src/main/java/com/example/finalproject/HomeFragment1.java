@@ -125,10 +125,10 @@ public class HomeFragment1 extends Fragment {
         bestImage=best.findViewById(R.id.bestImage);
         bestname=best.findViewById(R.id.bestname);
         bestintroduction=best.findViewById(R.id.bestintroduction);
-        besttime=best.findViewById(R.id.besttime);
-        bestcalorie=best.findViewById(R.id.bestcalorie);
-        bestcapacity=best.findViewById(R.id.bestcapacity);
-        bestdifficulty=best.findViewById(R.id.bestdifficulty);
+//        besttime=best.findViewById(R.id.besttime);
+//        bestcalorie=best.findViewById(R.id.bestcalorie);
+//        bestcapacity=best.findViewById(R.id.bestcapacity);
+//        bestdifficulty=best.findViewById(R.id.bestdifficulty);
 
         ProductRepository dao = ProductRepository.getInstance();
         ArrayList<Product> listOfProducts = dao.getAllProducts();
@@ -137,10 +137,10 @@ public class HomeFragment1 extends Fragment {
             if (i == 0) {
                 bestname.setText(product.getPname());
                 bestintroduction.setText(product.getIntroduction());
-                besttime.setText(product.gettime());
-                bestcalorie.setText(product.getcalorie());
-                bestcapacity.setText(product.getcapacity());
-                bestdifficulty.setText(product.getdifficulty());
+//                besttime.setText(product.gettime());
+//                bestcalorie.setText(product.getcalorie());
+//                bestcapacity.setText(product.getcapacity());
+//                bestdifficulty.setText(product.getdifficulty());
             }else{
                 item_name[i-1].setText(product.getPname());
                 item_introduction[i-1].setText(product.getIntroduction());

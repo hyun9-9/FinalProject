@@ -59,10 +59,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             />
+
         <ImageButton
             android:id="@+id/imagebut"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_weight="4"
             android:src="@drawable/baseline_search_24"></ImageButton>
     </LinearLayout>

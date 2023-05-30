@@ -121,257 +121,257 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View frag_view = inflater.inflate(R.layout.fragment_home,container,false);
-        // Inflate the layout for this fragment
-        Bundle bundle = getArguments();
-        String access_token = bundle.getString("access_token");
-       // gridView = (GridView) frag_view.findViewById(R.id.gridView);
-
-
-        l_id = new ArrayList<String>();
-        name = new ArrayList<String>();
-        introduction = new ArrayList<String>();
-        time = new ArrayList<String>();
-        calorie=new ArrayList<String>();
-        capacity=new ArrayList<String>();
-        difficulty=new ArrayList<String>();
-        image_link=new ArrayList<String>();
-
-        arraylistid= new ArrayList<String>();
-       arraylistname= new ArrayList<String>();
-        arraylistintroduction= new ArrayList<String>();
-        arraylisttime= new ArrayList<String>();
-         arraylistcalorie= new ArrayList<String>();
-        arraylistcapacity= new ArrayList<String>();
-        arraylistdifficulty= new ArrayList<String>();
-        arraylistimage_link=new ArrayList<>();
-
-        final View best = frag_view.findViewById(R.id.best);
-
-        final View list1 = frag_view.findViewById(R.id.list1);
-        final View list2 = frag_view.findViewById(R.id.list2);
-        final View list3 = frag_view.findViewById(R.id.list3);
-        final View list4 = frag_view.findViewById(R.id.list4);
-
-        bestImage=best.findViewById(R.id.bestImage);
-        bestname=best.findViewById(R.id.bestname);
-        bestintroduction=best.findViewById(R.id.bestintroduction);
-        besttime=best.findViewById(R.id.besttime);
-        bestcalorie=best.findViewById(R.id.bestcalorie);
-        bestcapacity=best.findViewById(R.id.bestcapacity);
-        bestdifficulty=best.findViewById(R.id.bestdifficulty);
-
-        item_name = (TextView) list1.findViewById(R.id.name);
-        item_introduction = (TextView) list1.findViewById(R.id.introduction);
-        item_time = (TextView) list1.findViewById(R.id.Utime);
-        item_calorie = (TextView) list1.findViewById(R.id.calorie);
-        item_capacity = (TextView) list1.findViewById(R.id.capacity);
-        item_difficulty = (TextView) list1.findViewById(R.id.difficulty);
-        item_image= (ImageView) list1.findViewById(R.id.Image);
-
-        item_name2 = (TextView) list2.findViewById(R.id.name);
-        item_introduction2 = (TextView) list2.findViewById(R.id.introduction);
-        item_time2 = (TextView) list2.findViewById(R.id.Utime);
-        item_calorie2 = (TextView) list2.findViewById(R.id.calorie);
-        item_capacity2 = (TextView) list2.findViewById(R.id.capacity);
-        item_difficulty2 = (TextView) list2.findViewById(R.id.difficulty);
-        item_image2= (ImageView) list2.findViewById(R.id.Image);
-
-        item_name3 = (TextView) list3.findViewById(R.id.name);
-        item_introduction3 = (TextView) list3.findViewById(R.id.introduction);
-        item_time3 = (TextView) list3.findViewById(R.id.Utime);
-        item_calorie3 = (TextView) list3.findViewById(R.id.calorie);
-        item_capacity3 = (TextView) list3.findViewById(R.id.capacity);
-        item_difficulty3 = (TextView) list3.findViewById(R.id.difficulty);
-        item_image3= (ImageView) list3.findViewById(R.id.Image);
-
-        item_name4 = (TextView) list4.findViewById(R.id.name);
-        item_introduction4 = (TextView) list4.findViewById(R.id.introduction);
-        item_time4 = (TextView) list4.findViewById(R.id.Utime);
-        item_calorie4 = (TextView) list4.findViewById(R.id.calorie);
-        item_capacity4 = (TextView) list4.findViewById(R.id.capacity);
-        item_difficulty4 = (TextView) list4.findViewById(R.id.difficulty);
-        item_image4= (ImageView) list4.findViewById(R.id.Image);
-
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject( response );
-                    Log.e("Test123",jsonObject.toString());
-                    JSONArray data_json=jsonObject.getJSONArray("data");
-                    for(int i=0;i<data_json.length();i++){
-                        JSONObject jsonObject1=data_json.getJSONObject(i);
-                        l_id.add(jsonObject1.getString("id"));
-                        name.add(jsonObject1.getString("name"));
-                        introduction.add(jsonObject1.getString("introduction"));
-                        time.add(jsonObject1.getString("time"));
-                        calorie.add(jsonObject1.getString("calorie"));
-                        capacity.add(jsonObject1.getString("capacity"));
-                        difficulty.add(jsonObject1.getString("difficulty"));
-                        image_link.add(jsonObject1.getString("image_link"));
-
-                        Log.e("name",jsonObject1.getString("id"));
-                    }
-                    arraylistid.add(l_id.get(0));
-                    arraylistname.add(name.get(0));
-                    arraylistintroduction.add(introduction.get(0));
-                    arraylisttime.add(time.get(0));
-                    arraylistcalorie.add(calorie.get(0));
-                    arraylistcapacity.add(capacity.get(0));
-                    arraylistdifficulty.add(difficulty.get(0));
-                    arraylistimage_link.add(image_link.get(0));
-
-                    for(int i=0;i<l_id.size();i++) {
-                        if (i == 0) {
-                            bestname.setText(name.get(i));
-                            bestintroduction.setText(introduction.get(i));
-                            besttime.setText(time.get(i));
-                            bestcalorie.setText(calorie.get(i));
-                            bestcapacity.setText(capacity.get(i));
-                            bestdifficulty.setText(difficulty.get(i));
-                        }
-                        if (i == 1) {
-                            item_name.setText(name.get(i));
-                            item_introduction.setText(introduction.get(i));
-                            item_time.setText(time.get(i));
-                            item_calorie.setText(calorie.get(i));
-                            item_capacity.setText(capacity.get(i));
-                            item_difficulty.setText(difficulty.get(i));
-                        }
-                        if (i == 2) {
-                            item_name2.setText(name.get(i));
-                            item_introduction2.setText(introduction.get(i));
-                            item_time2.setText(time.get(i));
-                            item_calorie2.setText(calorie.get(i));
-                            item_capacity2.setText(capacity.get(i));
-                            item_difficulty2.setText(difficulty.get(i));
-                        }
-                        if (i == 3) {
-                            item_name3.setText(name.get(i));
-                            item_introduction3.setText(introduction.get(i));
-                            item_time3.setText(time.get(i));
-                            item_calorie3.setText(calorie.get(i));
-                            item_capacity3.setText(capacity.get(i));
-                            item_difficulty3.setText(difficulty.get(i));
-                        }
-                        if (i == 4) {
-                            item_name4.setText(name.get(i));
-                            item_introduction4.setText(introduction.get(i));
-                            item_time4.setText(time.get(i));
-                            item_calorie4.setText(calorie.get(i));
-                            item_capacity4.setText(capacity.get(i));
-                            item_difficulty4.setText(difficulty.get(i));
-                        }
-                        int finalI = i;
-                        Thread mThread = new Thread() {
-                            @Override
-                            public void run() {
-                                try {
-                                    URL url = new URL(image_link.get(finalI));
-                                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                                    conn.setDoInput(true); // 서버로 부터 응답 수신
-                                    conn.connect();
-
-                                    InputStream is = conn.getInputStream(); // InputStream 값 가져오기
-                                    bitmap = BitmapFactory.decodeStream(is); // Bitmap으로 변환
-
-                                } catch (MalformedURLException e) {
-                                    e.printStackTrace();
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-
-                        };
-                        mThread.start();
-                        try {
-                            // 메인 Thread는 별도의 작업 Thread가 작업을 완료할 때까지 대기해야한다
-                            // join()를 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 한다
-                            mThread.join();
-
-                            // 작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
-                            // UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지를 지정한다
-                            if(i==0) {
-                                bestImage.setImageBitmap(bitmap);
-                            }
-                            if(i==1) {
-                                item_image.setImageBitmap(bitmap);
-                            }
-                            if(i==2) {
-                                item_image2.setImageBitmap(bitmap);
-                            }
-                            if(i==3) {
-                                item_image3.setImageBitmap(bitmap);
-                            }
-                            if(i==4) {
-                                item_image4.setImageBitmap(bitmap);
-                            }
-
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-//                    gridView.setNumColumns(1);
-//                    adapter = new HomeAdapter(arraylistid,arraylistname,arraylistintroduction,arraylisttime,arraylistcalorie,arraylistcapacity,arraylistdifficulty,arraylistimage_link,container.getContext() );
-//                    gridView.setAdapter(adapter);
-
-
-//                    l_id.remove(0);
-//                    name.remove(0);
-//                    introduction.remove(0);
-//                    time.remove(0);
-//                    calorie.remove(0);
-//                    capacity.remove(0);
-//                    difficulty.remove(0);
-//                    image_link.remove(0);
-
-                    //gridView.setNumColumns(2);
-                    adapter = new HomeAdapter(l_id,name,introduction,time,calorie,capacity,difficulty,image_link,container.getContext(),gridView);
-                    // 리스트뷰에 아답터를 연결한다.
-                   // gridView.setAdapter(adapter);
-                   // gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    //    @Override
-                     //   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //        Log.d(TAG, "여기야 : "+l_id.get(position));
-                    //        Intent intent =new Intent(getActivity(),MainActivity.class);
-                    //        intent.putExtra("id",l_id.get(position));
-                    //        startActivity(intent);
-                    //    }
-                  //  });
-//                    JSONObject User_json=data_json.getJSONObject("user");
-//                    JSONObject Token_json=data_json.getJSONObject("token");
-//
-//                    String Email=User_json.getString("email");
+//        // Inflate the layout for this fragment
+//        Bundle bundle = getArguments();
+//        String access_token = bundle.getString("access_token");
+//       // gridView = (GridView) frag_view.findViewById(R.id.gridView);
 //
 //
-//                    if(UserEmail.equals(Email)) {//로그인 성공시
+//        l_id = new ArrayList<String>();
+//        name = new ArrayList<String>();
+//        introduction = new ArrayList<String>();
+//        time = new ArrayList<String>();
+//        calorie=new ArrayList<String>();
+//        capacity=new ArrayList<String>();
+//        difficulty=new ArrayList<String>();
+//        image_link=new ArrayList<String>();
 //
-//                        String access_token=Token_json.getString("access_token");
-//                        String refresh_token=Token_json.getString("refresh_token");
-//                        String User_mobile = User_json.getString( "mobile" );
-//                        String UserName = User_json.getString( "name" );
+//        arraylistid= new ArrayList<String>();
+//       arraylistname= new ArrayList<String>();
+//        arraylistintroduction= new ArrayList<String>();
+//        arraylisttime= new ArrayList<String>();
+//         arraylistcalorie= new ArrayList<String>();
+//        arraylistcapacity= new ArrayList<String>();
+//        arraylistdifficulty= new ArrayList<String>();
+//        arraylistimage_link=new ArrayList<>();
 //
-//                        //Toast.makeText( frag_view.getContext(), String.format("%s님 환영합니다.", UserName), Toast.LENGTH_SHORT ).show();
+//        final View best = frag_view.findViewById(R.id.best);
 //
+//        final View list1 = frag_view.findViewById(R.id.list1);
+//        final View list2 = frag_view.findViewById(R.id.list2);
+//        final View list3 = frag_view.findViewById(R.id.list3);
+//        final View list4 = frag_view.findViewById(R.id.list4);
 //
-//                    } else {//로그인 실패시
-//                        //Toast.makeText( getApplicationContext(), "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT ).show();
-//                       return;
+////        bestImage=best.findViewById(R.id.bestImage);
+//        bestname=best.findViewById(R.id.bestname);
+//        bestintroduction=best.findViewById(R.id.bestintroduction);
+//        besttime=best.findViewById(R.id.besttime);
+//        bestcalorie=best.findViewById(R.id.bestcalorie);
+//        bestcapacity=best.findViewById(R.id.bestcapacity);
+//        bestdifficulty=best.findViewById(R.id.bestdifficulty);
+//
+//        item_name = (TextView) list1.findViewById(R.id.name);
+//        item_introduction = (TextView) list1.findViewById(R.id.introduction);
+//        item_time = (TextView) list1.findViewById(R.id.Utime);
+//        item_calorie = (TextView) list1.findViewById(R.id.calorie);
+//        item_capacity = (TextView) list1.findViewById(R.id.capacity);
+//        item_difficulty = (TextView) list1.findViewById(R.id.difficulty);
+//        item_image= (ImageView) list1.findViewById(R.id.Image);
+//
+//        item_name2 = (TextView) list2.findViewById(R.id.name);
+//        item_introduction2 = (TextView) list2.findViewById(R.id.introduction);
+//        item_time2 = (TextView) list2.findViewById(R.id.Utime);
+//        item_calorie2 = (TextView) list2.findViewById(R.id.calorie);
+//        item_capacity2 = (TextView) list2.findViewById(R.id.capacity);
+//        item_difficulty2 = (TextView) list2.findViewById(R.id.difficulty);
+//        item_image2= (ImageView) list2.findViewById(R.id.Image);
+//
+//        item_name3 = (TextView) list3.findViewById(R.id.name);
+//        item_introduction3 = (TextView) list3.findViewById(R.id.introduction);
+//        item_time3 = (TextView) list3.findViewById(R.id.Utime);
+//        item_calorie3 = (TextView) list3.findViewById(R.id.calorie);
+//        item_capacity3 = (TextView) list3.findViewById(R.id.capacity);
+//        item_difficulty3 = (TextView) list3.findViewById(R.id.difficulty);
+//        item_image3= (ImageView) list3.findViewById(R.id.Image);
+//
+//        item_name4 = (TextView) list4.findViewById(R.id.name);
+//        item_introduction4 = (TextView) list4.findViewById(R.id.introduction);
+//        item_time4 = (TextView) list4.findViewById(R.id.Utime);
+//        item_calorie4 = (TextView) list4.findViewById(R.id.calorie);
+//        item_capacity4 = (TextView) list4.findViewById(R.id.capacity);
+//        item_difficulty4 = (TextView) list4.findViewById(R.id.difficulty);
+//        item_image4= (ImageView) list4.findViewById(R.id.Image);
+//
+//        Response.Listener<String> responseListener = new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                try {
+//                    JSONObject jsonObject = new JSONObject( response );
+//                    Log.e("Test123",jsonObject.toString());
+//                    JSONArray data_json=jsonObject.getJSONArray("data");
+//                    for(int i=0;i<data_json.length();i++){
+//                        JSONObject jsonObject1=data_json.getJSONObject(i);
+//                        l_id.add(jsonObject1.getString("id"));
+//                        name.add(jsonObject1.getString("name"));
+//                        introduction.add(jsonObject1.getString("introduction"));
+//                        time.add(jsonObject1.getString("time"));
+//                        calorie.add(jsonObject1.getString("calorie"));
+//                        capacity.add(jsonObject1.getString("capacity"));
+//                        difficulty.add(jsonObject1.getString("difficulty"));
+//                        image_link.add(jsonObject1.getString("image_link"));
+//
+//                        Log.e("name",jsonObject1.getString("id"));
 //                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.e("err","json err");
-                }
-            }
-        };
-
-
-        HomeRequest homeRequest = new HomeRequest(access_token, responseListener);
-        RequestQueue queue = Volley.newRequestQueue(frag_view.getContext());
-        queue.add(homeRequest);
+//                    arraylistid.add(l_id.get(0));
+//                    arraylistname.add(name.get(0));
+//                    arraylistintroduction.add(introduction.get(0));
+//                    arraylisttime.add(time.get(0));
+//                    arraylistcalorie.add(calorie.get(0));
+//                    arraylistcapacity.add(capacity.get(0));
+//                    arraylistdifficulty.add(difficulty.get(0));
+//                    arraylistimage_link.add(image_link.get(0));
+//
+//                    for(int i=0;i<l_id.size();i++) {
+//                        if (i == 0) {
+//                            bestname.setText(name.get(i));
+//                            bestintroduction.setText(introduction.get(i));
+//                            besttime.setText(time.get(i));
+//                            bestcalorie.setText(calorie.get(i));
+//                            bestcapacity.setText(capacity.get(i));
+//                            bestdifficulty.setText(difficulty.get(i));
+//                        }
+//                        if (i == 1) {
+//                            item_name.setText(name.get(i));
+//                            item_introduction.setText(introduction.get(i));
+//                            item_time.setText(time.get(i));
+//                            item_calorie.setText(calorie.get(i));
+//                            item_capacity.setText(capacity.get(i));
+//                            item_difficulty.setText(difficulty.get(i));
+//                        }
+//                        if (i == 2) {
+//                            item_name2.setText(name.get(i));
+//                            item_introduction2.setText(introduction.get(i));
+//                            item_time2.setText(time.get(i));
+//                            item_calorie2.setText(calorie.get(i));
+//                            item_capacity2.setText(capacity.get(i));
+//                            item_difficulty2.setText(difficulty.get(i));
+//                        }
+//                        if (i == 3) {
+//                            item_name3.setText(name.get(i));
+//                            item_introduction3.setText(introduction.get(i));
+//                            item_time3.setText(time.get(i));
+//                            item_calorie3.setText(calorie.get(i));
+//                            item_capacity3.setText(capacity.get(i));
+//                            item_difficulty3.setText(difficulty.get(i));
+//                        }
+//                        if (i == 4) {
+//                            item_name4.setText(name.get(i));
+//                            item_introduction4.setText(introduction.get(i));
+//                            item_time4.setText(time.get(i));
+//                            item_calorie4.setText(calorie.get(i));
+//                            item_capacity4.setText(capacity.get(i));
+//                            item_difficulty4.setText(difficulty.get(i));
+//                        }
+//                        int finalI = i;
+//                        Thread mThread = new Thread() {
+//                            @Override
+//                            public void run() {
+//                                try {
+//                                    URL url = new URL(image_link.get(finalI));
+//                                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                                    conn.setDoInput(true); // 서버로 부터 응답 수신
+//                                    conn.connect();
+//
+//                                    InputStream is = conn.getInputStream(); // InputStream 값 가져오기
+//                                    bitmap = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+//
+//                                } catch (MalformedURLException e) {
+//                                    e.printStackTrace();
+//
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//
+//
+//                        };
+//                        mThread.start();
+//                        try {
+//                            // 메인 Thread는 별도의 작업 Thread가 작업을 완료할 때까지 대기해야한다
+//                            // join()를 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 한다
+//                            mThread.join();
+//
+//                            // 작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+//                            // UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지를 지정한다
+//                            if(i==0) {
+//                                bestImage.setImageBitmap(bitmap);
+//                            }
+//                            if(i==1) {
+//                                item_image.setImageBitmap(bitmap);
+//                            }
+//                            if(i==2) {
+//                                item_image2.setImageBitmap(bitmap);
+//                            }
+//                            if(i==3) {
+//                                item_image3.setImageBitmap(bitmap);
+//                            }
+//                            if(i==4) {
+//                                item_image4.setImageBitmap(bitmap);
+//                            }
+//
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+////                    gridView.setNumColumns(1);
+////                    adapter = new HomeAdapter(arraylistid,arraylistname,arraylistintroduction,arraylisttime,arraylistcalorie,arraylistcapacity,arraylistdifficulty,arraylistimage_link,container.getContext() );
+////                    gridView.setAdapter(adapter);
+//
+//
+////                    l_id.remove(0);
+////                    name.remove(0);
+////                    introduction.remove(0);
+////                    time.remove(0);
+////                    calorie.remove(0);
+////                    capacity.remove(0);
+////                    difficulty.remove(0);
+////                    image_link.remove(0);
+//
+//                    //gridView.setNumColumns(2);
+//                    adapter = new HomeAdapter(l_id,name,introduction,time,calorie,capacity,difficulty,image_link,container.getContext(),gridView);
+//                    // 리스트뷰에 아답터를 연결한다.
+//                   // gridView.setAdapter(adapter);
+//                   // gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    //    @Override
+//                     //   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    //        Log.d(TAG, "여기야 : "+l_id.get(position));
+//                    //        Intent intent =new Intent(getActivity(),MainActivity.class);
+//                    //        intent.putExtra("id",l_id.get(position));
+//                    //        startActivity(intent);
+//                    //    }
+//                  //  });
+////                    JSONObject User_json=data_json.getJSONObject("user");
+////                    JSONObject Token_json=data_json.getJSONObject("token");
+////
+////                    String Email=User_json.getString("email");
+////
+////
+////                    if(UserEmail.equals(Email)) {//로그인 성공시
+////
+////                        String access_token=Token_json.getString("access_token");
+////                        String refresh_token=Token_json.getString("refresh_token");
+////                        String User_mobile = User_json.getString( "mobile" );
+////                        String UserName = User_json.getString( "name" );
+////
+////                        //Toast.makeText( frag_view.getContext(), String.format("%s님 환영합니다.", UserName), Toast.LENGTH_SHORT ).show();
+////
+////
+////                    } else {//로그인 실패시
+////                        //Toast.makeText( getApplicationContext(), "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT ).show();
+////                       return;
+////                    }
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    Log.e("err","json err");
+//                }
+//            }
+//        };
+//
+//
+//        HomeRequest homeRequest = new HomeRequest(access_token, responseListener);
+//        RequestQueue queue = Volley.newRequestQueue(frag_view.getContext());
+//        queue.add(homeRequest);
 
 
         return frag_view;

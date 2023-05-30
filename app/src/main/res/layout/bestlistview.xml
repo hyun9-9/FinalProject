@@ -2,27 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:elevation="30dp">
 
+
         <ImageView
-            android:elevation="30dp"
             android:id="@+id/bestImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"/>
-
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY" />
         <TextView
-            android:textStyle="bold"
+            android:shadowDx="2.0"
+            android:shadowDy="2.0"
+            android:shadowRadius="5.0"
+            android:shadowColor="#ffffff"
 
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="210dp"
+            android:textStyle="bold"
             android:id="@+id/bestname"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoSizeTextType="uniform"
             android:ellipsize="end"
+            android:textColor="#000000"
+            android:textSize="20dp"
             android:text="name"/>
         <TextView
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:layout_marginTop="240dp"
             android:id="@+id/bestintroduction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,38 +40,42 @@
             android:ellipsize="end"
             android:text="introduction"/>
 
-        <TextView
-            android:layout_marginTop="40dp"
-            android:id="@+id/besttime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
-            android:ellipsize="end"
-            android:text="time"/>
-        <TextView
-            android:layout_marginTop="60dp"
-            android:id="@+id/bestcalorie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
-            android:ellipsize="end"
-            android:text="calorie"/>
-        <TextView
-            android:layout_marginTop="80dp"
-            android:id="@+id/bestcapacity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
-            android:ellipsize="end"
-            android:text="capacity"/>
-        <TextView
-            android:layout_marginTop="100dp"
-            android:id="@+id/bestdifficulty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
-            android:ellipsize="end"
-            android:text="difficulty"/>
+<!--        <TextView-->
+<!--            android:textColor="#000000"-->
+<!--            android:layout_marginTop="40dp"-->
+<!--            android:id="@+id/besttime"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:autoSizeTextType="uniform"-->
+<!--            android:ellipsize="end"-->
+<!--            android:text="time"/>-->
+<!--        <TextView-->
+<!--            android:textColor="#000000"-->
+<!--            android:layout_marginTop="60dp"-->
+<!--            android:id="@+id/bestcalorie"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:autoSizeTextType="uniform"-->
+<!--            android:ellipsize="end"-->
+<!--            android:text="calorie"/>-->
+<!--        <TextView-->
+<!--            android:textColor="#000000"-->
+<!--            android:layout_marginTop="80dp"-->
+<!--            android:id="@+id/bestcapacity"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:autoSizeTextType="uniform"-->
+<!--            android:ellipsize="end"-->
+<!--            android:text="capacity"/>-->
+<!--        <TextView-->
+<!--            android:textColor="#000000"-->
+<!--            android:layout_marginTop="100dp"-->
+<!--            android:id="@+id/bestdifficulty"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:autoSizeTextType="uniform"-->
+<!--            android:ellipsize="end"-->
+<!--            android:text="difficulty"/>-->
 
 
 
