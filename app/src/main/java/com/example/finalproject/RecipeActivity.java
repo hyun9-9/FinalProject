@@ -105,7 +105,7 @@ public class RecipeActivity extends AppCompatActivity {
             // UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지를 지정한다
             recipename.setText(recipe_name);
             recipetime.setText("소요 시간 : " + recipe_time);
-            recipedifficulty.setText(recipe_difficulty);
+            recipedifficulty.setText("난이도 : " +recipe_difficulty);
             recipeimage.setImageBitmap(bitmap);
         } catch (InterruptedException e) {
             e.printStackTrace();
