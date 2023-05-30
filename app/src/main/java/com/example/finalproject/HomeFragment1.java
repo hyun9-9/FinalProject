@@ -182,6 +182,7 @@ public class HomeFragment1 extends Fragment {
                 // UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지를 지정한다
                 if(i==0) {
                     bestImage.setImageBitmap(bitmap);
+//                    bestImage.clipToOutline = true;
                 }
                 else {
                     item_image[i-1].setImageBitmap(bitmap);
