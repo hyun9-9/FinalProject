@@ -170,6 +170,7 @@ public class SearchFragment1 extends Fragment {
                     intent.putExtra("recipename", jsonname.get(position));
                     intent.putExtra("recipetime", jsontime.get(position));
                     intent.putExtra("recipedifficulty", jsondifficulty.get(position));
+                    intent.putExtra("recipecapacity", jsoncapacity.get(position));
                     intent.putExtra("access_token", access_token);
                     startActivity(intent);
                 }

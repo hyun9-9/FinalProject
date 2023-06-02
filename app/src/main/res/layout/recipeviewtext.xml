@@ -14,8 +14,8 @@ android:layout_margin="20dp"
         android:layout_height="wrap_content"
         android:autoSizeTextType="uniform"
         android:ellipsize="end"
-        android:layout_weight="1.5"
-        android:text="name" />
+        android:text="name"
+        android:textColor="#000000"/>
 
 
 </LinearLayout>
