@@ -26,6 +26,7 @@ public class RecipeRequest extends StringRequest {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("err", String.valueOf(error));
+
                     }
                 });
 

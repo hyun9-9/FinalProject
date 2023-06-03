@@ -114,6 +114,15 @@ public class RecipeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+       jsonRequest(access_token,recipe_id);
+    }
+    private void jsonRequest(String access_token,String recipe_id){
+        main_ingredient.clear();
+        sub_ingredient.clear();
+        seasoning.clear();
+        Tmainingredient.setText("  주재료 : ");
+        Tsubingredient.setText("  부재료 : ");
+        Tseasoning.setText("  양념 : ");
         Response.Listener<String> recipeListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -140,24 +149,6 @@ public class RecipeActivity extends AppCompatActivity {
                         }
                         //Log.e("name",data_json.getString(i));
                     }
-                    for(int i=0;i<main_ingredient.size();i++){
-                        if(i>0&&main_ingredient.size()>i) {
-                            Tmainingredient.append(", ");
-                        }
-                        Tmainingredient.append(main_ingredient.get(i));
-                    }
-                    for(int i=0;i<sub_ingredient.size();i++){
-                        if(i>0&&sub_ingredient.size()>i) {
-                            Tsubingredient.append(", ");
-                        }
-                        Tsubingredient.append(sub_ingredient.get(i));
-                    }
-                    for(int i=0;i<seasoning.size();i++){
-                        if(i>0&&seasoning.size()>i) {
-                            Tseasoning.append(", ");
-                        }
-                        Tseasoning.append(seasoning.get(i));
-                    }
 
 
 
@@ -172,6 +163,26 @@ public class RecipeActivity extends AppCompatActivity {
                                 //Log.e("Test123", jsonObject.toString());
                                 JSONArray data_json = jsonObject.getJSONArray("data");
                                 //Log.e("Test123",data_json.toString());
+                                for(int i=0;i<main_ingredient.size();i++){
+                                    if(i>0&&main_ingredient.size()>i) {
+                                        Tmainingredient.append(", ");
+                                    }
+                                    Tmainingredient.append(main_ingredient.get(i));
+                                }
+                                for(int i=0;i<sub_ingredient.size();i++){
+                                    if(i>0&&sub_ingredient.size()>i) {
+                                        Tsubingredient.append(", ");
+                                    }
+                                    Tsubingredient.append(sub_ingredient.get(i));
+                                }
+                                for(int i=0;i<seasoning.size();i++){
+                                    if(i>0&&seasoning.size()>i) {
+                                        Tseasoning.append(", ");
+                                    }
+                                    Tseasoning.append(seasoning.get(i));
+                                }
+
+
                                 for (int i = 0; i < data_json.length(); i++) {
                                     JSONObject jsonObject1 = data_json.getJSONObject(i);
                                     // jsonObject1=data_json.getJSONObject(i);
@@ -244,13 +255,13 @@ public class RecipeActivity extends AppCompatActivity {
                                 LinearLayout mRootLinear=(LinearLayout)findViewById(R.id.linear_root);
                                 LinearLayout mLinearLayout=(LinearLayout)mInflater.inflate(R.layout.recipeviewtext,mRootLinear,false) ;
                                 TextView textView = mLinearLayout.findViewById(R.id.name);
-
                                 textView.setText("");
-
                                 mRootLinear.addView(mLinearLayout);
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Log.e("err", "Searchtag json err");
+                                Log.e("err", "test json err");
+
+                                jsonRequest(access_token,recipe_id);
                             }
                         }
                     };
@@ -265,6 +276,8 @@ public class RecipeActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e("err", "Searchtag json err");
+
+                    jsonRequest(access_token,recipe_id);
                 }
             }
         };

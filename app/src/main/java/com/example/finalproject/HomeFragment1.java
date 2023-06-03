@@ -136,7 +136,7 @@ public class HomeFragment1 extends Fragment {
 
         ProductRepository dao = ProductRepository.getInstance();
         ArrayList<Product> listOfProducts = dao.getAllProducts();
-        for (int i = 0; i < listOfProducts.size(); i++) {
+        for (int i = 0; i <= 4; i++) {
             Product product = listOfProducts.get(i);
             if (i == 0) {
                 bestname.setText(product.getPname());
@@ -145,7 +145,7 @@ public class HomeFragment1 extends Fragment {
 //                bestcalorie.setText(product.getcalorie());
 //                bestcapacity.setText(product.getcapacity());
 //                bestdifficulty.setText(product.getdifficulty());
-            }else{
+            }else {
                 item_name[i-1].setText(product.getPname());
                 item_introduction[i-1].setText(product.getIntroduction());
                 item_time[i-1].setText(product.gettime());
@@ -189,7 +189,7 @@ public class HomeFragment1 extends Fragment {
 //                    bestImage.clipToOutline = true;
 
                 }
-                else {
+                else{
                     item_image[i-1].setImageBitmap(bitmap);
                 }
 
