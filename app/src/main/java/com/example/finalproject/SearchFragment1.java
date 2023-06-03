@@ -55,7 +55,7 @@ public class SearchFragment1 extends Fragment {
     private SearchAdapter adapter;      // 리스트뷰에 연결할 아답터
     private SearchTagAdapter tagAdapter;
     private ArrayList<String> arraylist;//전체리스트 저장
-
+    private ArrayList<String> testDataSet;
     private SearchView searchView;//검색창
 
     private ImageButton imageBut;//태그 검색 버튼
@@ -124,7 +124,7 @@ public class SearchFragment1 extends Fragment {
         list = new ArrayList<String>();
         imageBut = frag_view.findViewById(R.id.imagebut);
 
-        ArrayList<String> testDataSet = new ArrayList<>();
+        testDataSet = new ArrayList<>();
         RecyclerView recyclerView = frag_view.findViewById(R.id.listView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(frag_view.getContext(), RecyclerView.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);  // LayoutManager 설정
@@ -208,65 +208,8 @@ public class SearchFragment1 extends Fragment {
         imageBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                jsonRequest(container,frag_view,access_token);
 
-                Response.Listener<String> searchTagResponseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            jsonId.clear();
-                            jsonname.clear();
-                            jsonintroduction.clear();
-                            jsontime.clear();
-                            jsoncalorie.clear();
-                            jsoncapacity.clear();
-                            jsondifficulty.clear();
-                            jsonimage_link.clear();
-                            JSONObject jsonObject = new JSONObject(response);
-
-                            Log.e("Test123", jsonObject.toString());
-                            JSONArray data_json = jsonObject.getJSONArray("data");
-                            //Log.e("Test123",data_json.toString());
-                            for (int i = 0; i < data_json.length(); i++) {
-                                JSONObject jsonObject1 = data_json.getJSONObject(i);
-                                // jsonObject1=data_json.getJSONObject(i);
-                                //Log.e("Test123",jsonObject1.toString());
-                                jsonId.add(jsonObject1.getString("id"));
-                                jsonname.add(jsonObject1.getString("name"));
-                                jsonintroduction.add(jsonObject1.getString("introduction"));
-                                jsontime.add(jsonObject1.getString("time"));
-                                jsoncalorie.add(jsonObject1.getString("calorie"));
-                                jsoncapacity.add(jsonObject1.getString("capacity"));
-                                jsondifficulty.add(jsonObject1.getString("difficulty"));
-                                jsonimage_link.add(jsonObject1.getString("image_link"));
-
-                                //Log.e("name",data_json.getString(i));
-                            }
-
-                            tagAdapter = new SearchTagAdapter(jsonname, jsonintroduction, jsontime, jsoncalorie, jsoncapacity, jsondifficulty, jsonimage_link, container.getContext());
-                            gridView.setAdapter(tagAdapter);
-
-                            tagbool = true;
-                            //Log.d("token",access_token);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("err", "Searchtag json err");
-                        }
-                    }
-                };
-
-                String dataset = "";
-
-                for (int i = 0; i < testDataSet.size(); i++) {
-                    if (i > 0 && i < testDataSet.size()) {
-                        dataset += "&";
-                    }
-                    dataset += "ingredients[]=" + testDataSet.get(i);
-                }
-                Log.e("tagck", dataset);
-                SearchTagRequest searchTagRequest = new SearchTagRequest(access_token, searchTagResponseListener, dataset);
-                RequestQueue searchqueue = Volley.newRequestQueue(frag_view.getContext());
-                searchqueue.add(searchTagRequest);
             }
         });
 
@@ -307,5 +250,67 @@ public class SearchFragment1 extends Fragment {
         SearchRepository dao = SearchRepository.getInstance();
         list.addAll(dao.getAllProducts());
 
+    }
+
+    private void jsonRequest(ViewGroup container,View frag_view,String access_token){
+        Response.Listener<String> searchTagResponseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    jsonId.clear();
+                    jsonname.clear();
+                    jsonintroduction.clear();
+                    jsontime.clear();
+                    jsoncalorie.clear();
+                    jsoncapacity.clear();
+                    jsondifficulty.clear();
+                    jsonimage_link.clear();
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    Log.e("Test123", jsonObject.toString());
+                    JSONArray data_json = jsonObject.getJSONArray("data");
+                    //Log.e("Test123",data_json.toString());
+                    for (int i = 0; i < data_json.length(); i++) {
+                        JSONObject jsonObject1 = data_json.getJSONObject(i);
+                        // jsonObject1=data_json.getJSONObject(i);
+                        //Log.e("Test123",jsonObject1.toString());
+                        jsonId.add(jsonObject1.getString("id"));
+                        jsonname.add(jsonObject1.getString("name"));
+                        jsonintroduction.add(jsonObject1.getString("introduction"));
+                        jsontime.add(jsonObject1.getString("time"));
+                        jsoncalorie.add(jsonObject1.getString("calorie"));
+                        jsoncapacity.add(jsonObject1.getString("capacity"));
+                        jsondifficulty.add(jsonObject1.getString("difficulty"));
+                        jsonimage_link.add(jsonObject1.getString("image_link"));
+
+                        //Log.e("name",data_json.getString(i));
+                    }
+
+                    tagAdapter = new SearchTagAdapter(jsonname, jsonintroduction, jsontime, jsoncalorie, jsoncapacity, jsondifficulty, jsonimage_link, container.getContext());
+                    gridView.setAdapter(tagAdapter);
+
+                    tagbool = true;
+                    //Log.d("token",access_token);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("err", "Searchtag json err");
+                    jsonRequest(container,frag_view,access_token);
+                }
+            }
+        };
+
+        String dataset = "";
+
+        for (int i = 0; i < testDataSet.size(); i++) {
+            if (i > 0 && i < testDataSet.size()) {
+                dataset += "&";
+            }
+            dataset += "ingredients[]=" + testDataSet.get(i);
+        }
+        Log.e("tagck", dataset);
+        SearchTagRequest searchTagRequest = new SearchTagRequest(access_token, searchTagResponseListener, dataset);
+        RequestQueue searchqueue = Volley.newRequestQueue(frag_view.getContext());
+        searchqueue.add(searchTagRequest);
     }
 }
