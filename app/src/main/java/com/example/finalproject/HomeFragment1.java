@@ -239,6 +239,7 @@ public class HomeFragment1 extends Fragment {
             intent.putExtra("recipename", product.getPname());
             intent.putExtra("recipetime",product.gettime());
             intent.putExtra("recipedifficulty", product.getdifficulty());
+            intent.putExtra("recipecapacity", product.getcapacity());
             intent.putExtra("access_token", access_token);
             startActivity(intent);
         }

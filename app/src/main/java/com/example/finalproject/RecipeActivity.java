@@ -35,6 +35,7 @@ public class RecipeActivity extends AppCompatActivity {
     TextView recipename,Tmainingredient,Tsubingredient,Tseasoning;
     TextView recipetime;
     TextView recipedifficulty;
+    TextView recipecapacity;
     Bitmap bitmap;
 
     LinearLayout recipeLayout,recipeview;
@@ -56,6 +57,7 @@ public class RecipeActivity extends AppCompatActivity {
         String recipe_time = get_intent.getStringExtra("recipetime");
         String recipe_difficulty = get_intent.getStringExtra("recipedifficulty");
         String access_token = get_intent.getStringExtra("access_token");
+        String recipe_capacity = get_intent.getStringExtra("recipecapacity");
         main_ingredient = new ArrayList<>();
         sub_ingredient = new ArrayList<>();
         seasoning = new ArrayList<>();
@@ -69,7 +71,7 @@ public class RecipeActivity extends AppCompatActivity {
         recipename = findViewById(R.id.recipename);
         recipetime = findViewById(R.id.recipetime);
         recipedifficulty = findViewById(R.id.recipedifficulty);
-
+        recipecapacity = findViewById(R.id.capacity);
         Tmainingredient = findViewById(R.id.main_ingredient);
         Tsubingredient = findViewById(R.id.sub_ingredient);
         Tseasoning = findViewById(R.id.seasoning);
@@ -106,6 +108,7 @@ public class RecipeActivity extends AppCompatActivity {
             recipename.setText(recipe_name);
             recipetime.setText("소요 시간 : " + recipe_time);
             recipedifficulty.setText("난이도 : " +recipe_difficulty);
+            recipecapacity.setText(recipe_capacity);
             recipeimage.setImageBitmap(bitmap);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -239,11 +242,11 @@ public class RecipeActivity extends AppCompatActivity {
                                 }
                                 LayoutInflater mInflater=(LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
                                 LinearLayout mRootLinear=(LinearLayout)findViewById(R.id.linear_root);
-                                LinearLayout mLinearLayout=(LinearLayout)mInflater.inflate(R.layout.recipeview,mRootLinear,false) ;
+                                LinearLayout mLinearLayout=(LinearLayout)mInflater.inflate(R.layout.recipeviewtext,mRootLinear,false) ;
                                 TextView textView = mLinearLayout.findViewById(R.id.name);
-                                ImageView imageView=mLinearLayout.findViewById(R.id.Image);
+
                                 textView.setText("");
-                                imageView.setImageResource(0);
+
                                 mRootLinear.addView(mLinearLayout);
                             } catch (JSONException e) {
                                 e.printStackTrace();

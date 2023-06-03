@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -26,6 +27,7 @@ public class ProfileFragment extends Fragment {
     private String mParam2;
 
     TextView name,email,mobile;
+    Button producer, logout;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -73,6 +75,24 @@ public class ProfileFragment extends Fragment {
         name.setText("성함 : "+UserName);
         email.setText("이메일 : "+UserEmail);
         mobile.setText("전화번호 : "+User_mobile);
+
+        producer=frag_view.findViewById(R.id.producer);
+        logout = frag_view.findViewById(R.id.logout);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        producer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         // Inflate the layout for this fragment
         return frag_view;
     }
