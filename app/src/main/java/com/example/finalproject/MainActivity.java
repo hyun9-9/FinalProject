@@ -74,63 +74,23 @@ public class MainActivity extends AppCompatActivity {
                         image_link.add(jsonObject1.getString("image_link"));
 
                     }
+                    ProductRepository dao = ProductRepository.getInstance();
+                    for(int i=0;i<id.size();i++){
 
+                        Product newProduct = new Product();
+                        newProduct.setProductId(id.get(i));
+                        newProduct.setPname(name.get(i));
+                        newProduct.setIntroduction(introduction.get(i));
+                        newProduct.settime(time.get(i));
+                        newProduct.setcalorie(calorie.get(i));
+                        newProduct.setcapacity(capacity.get(i));
+                        newProduct.setdifficulty(difficulty.get(i));
+                        newProduct.setimage_link(image_link.get(i));
+                        dao.addProduct(newProduct);
 
+                    }
+                    jsonRequestSearch(UserEmail,User_mobile,UserName,refresh_token,access_token);
 
-                    Response.Listener<String> searchResponseListener = new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                ProductRepository dao = ProductRepository.getInstance();
-                                for(int i=0;i<id.size();i++){
-
-                                    Product newProduct = new Product();
-                                    newProduct.setProductId(id.get(i));
-                                    newProduct.setPname(name.get(i));
-                                    newProduct.setIntroduction(introduction.get(i));
-                                    newProduct.settime(time.get(i));
-                                    newProduct.setcalorie(calorie.get(i));
-                                    newProduct.setcapacity(capacity.get(i));
-                                    newProduct.setdifficulty(difficulty.get(i));
-                                    newProduct.setimage_link(image_link.get(i));
-                                    dao.addProduct(newProduct);
-
-                                }
-                                JSONObject jsonObject = new JSONObject( response );
-
-                                Log.e("Test123",jsonObject.toString());
-                                JSONArray data_json=jsonObject.getJSONArray("data");
-                                Log.e("Test123",data_json.toString());
-                                for(int i=0;i<data_json.length();i++){
-                                    // jsonObject1=data_json.getJSONObject(i);
-                                    //Log.e("Test123",jsonObject1.toString());
-                                    SearchRepository s_dao = SearchRepository.getInstance();
-                                    s_dao.addProduct(data_json.getString(i));
-
-                                    //Log.e("name",data_json.getString(i));
-                                }
-                                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                                intent.putExtra( "UserEmail", UserEmail );
-                                intent.putExtra( "User_mobile", User_mobile );
-                                intent.putExtra( "UserName", UserName );
-                                intent.putExtra( "access_token", access_token );
-                                intent.putExtra( "refresh_token", refresh_token );
-                                //Log.d("token",access_token);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity( intent );
-                                //settingList();
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.e("err","Search json err");
-                                jsonRequest(UserEmail,User_mobile,UserName,refresh_token,access_token);
-                            }
-                        }
-                    };
-
-                    SearchRequest searchRequest = new SearchRequest( access_token, searchResponseListener );
-                    RequestQueue searchqueue = Volley.newRequestQueue( MainActivity.this );
-                    searchqueue.add( searchRequest );
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -144,6 +104,50 @@ public class MainActivity extends AppCompatActivity {
         queue.add(homeRequest);
 
     }
+    private void jsonRequestSearch(String UserEmail,String User_mobile,String UserName,String refresh_token,String access_token){
+        Response.Listener<String> searchResponseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                    JSONObject jsonObject = new JSONObject( response );
+
+                    Log.e("Test123",jsonObject.toString());
+                    JSONArray data_json=jsonObject.getJSONArray("data");
+                    Log.e("Test123",data_json.toString());
+                    for(int i=0;i<data_json.length();i++){
+                        // jsonObject1=data_json.getJSONObject(i);
+                        //Log.e("Test123",jsonObject1.toString());
+                        SearchRepository s_dao = SearchRepository.getInstance();
+                        s_dao.addProduct(data_json.getString(i));
+
+                        //Log.e("name",data_json.getString(i));
+                    }
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    intent.putExtra( "UserEmail", UserEmail );
+                    intent.putExtra( "User_mobile", User_mobile );
+                    intent.putExtra( "UserName", UserName );
+                    intent.putExtra( "access_token", access_token );
+                    intent.putExtra( "refresh_token", refresh_token );
+                    //Log.d("token",access_token);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity( intent );
+                    //settingList();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("err","Search json err");
+                    jsonRequestSearch(UserEmail,User_mobile,UserName,refresh_token,access_token);
+                }
+            }
+        };
+
+        SearchRequest searchRequest = new SearchRequest( access_token, searchResponseListener );
+        RequestQueue searchqueue = Volley.newRequestQueue( MainActivity.this );
+        searchqueue.add( searchRequest );
+
+    }
+
     @Override
     protected void onResume(){
         super.onResume();
@@ -154,16 +158,16 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref=getSharedPreferences("pref", Activity.MODE_PRIVATE);
         if((pref!=null)&&(pref.contains("access_token"))){
             access_token=pref.getString("access_token","");
-            Response.Listener<String> searchResponseListener = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-
-                }
-            };
-
-            SearchRequest searchRequest = new SearchRequest( access_token, searchResponseListener );
-            RequestQueue searchqueue = Volley.newRequestQueue( MainActivity.this );
-            searchqueue.add( searchRequest );
+//            Response.Listener<String> searchResponseListener = new Response.Listener<String>() {
+//                @Override
+//                public void onResponse(String response) {
+//
+//                }
+//            };
+//
+//            SearchRequest searchRequest = new SearchRequest( access_token, searchResponseListener );
+//            RequestQueue searchqueue = Volley.newRequestQueue( MainActivity.this );
+//            searchqueue.add( searchRequest );
 
         }
     }
