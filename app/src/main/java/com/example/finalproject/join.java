@@ -19,6 +19,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class join extends AppCompatActivity {
 
     private EditText join_email, join_password, join_name, join_pwck,join_mobile;
@@ -56,40 +59,7 @@ public class join extends AppCompatActivity {
                     dialog.show();
                     return;
                 }
-
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-
-                            JSONObject jsonResponse = new JSONObject(response);
-                            Log.e("json", String.valueOf(jsonResponse));
-                            JSONObject success_json=jsonResponse.getJSONObject("data");
-                            Log.e("json", String.valueOf(success_json));
-                            boolean success = success_json.getBoolean("available");
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(join.this);
-                            if(success) {
-                                dialog = builder.setMessage("사용할 수 있는 아이디입니다.").setPositiveButton("확인", null).create();
-                                dialog.show();
-                                join_email.setEnabled(false); //아이디값 고정
-                                validate = true; //검증 완료
-                                check_button.setBackgroundColor(getResources().getColor(R.color.colorGray));
-                            }
-                            else {
-                                dialog = builder.setMessage("이미 존재하는 아이디입니다.").setNegativeButton("확인", null).create();
-                                dialog.show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                        }
-                    }
-                };
-                ValidateRequest validateRequest = new ValidateRequest(UserEmail, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(join.this);
-                queue.add(validateRequest);
-
+                json_available(UserEmail);
             }
         });
 
@@ -121,55 +91,117 @@ public class join extends AppCompatActivity {
                     dialog.show();
                     return;
                 }
+                String pwd=getHash(UserPwd);
+                join_success(UserEmail,UserPwd,UserName,Usermobile,PassCk,pwd);
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-
-                            Log.d("json", String.valueOf(jsonObject));
-                            JSONObject join_json = jsonObject.getJSONObject( "data");
-                            //boolean success = jsonObject.getBoolean( "success" );
-                            JSONObject User_json=join_json.getJSONObject("user");
-                            String User_Email=User_json.getString("email");
-
-                            Log.d("jsonEmail", String.valueOf(UserEmail));
-                            //회원가입 성공시
-                            if(UserPwd.equals(PassCk)) {
-                                Log.d("UserPwd", String.valueOf(UserPwd));
-                                if (User_Email.equals(UserEmail)) {
-
-                                    Toast.makeText(getApplicationContext(), String.format("%s님 가입을 환영합니다.", UserName), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(join.this, login.class);
-                                    startActivity(intent);
-
-                                    //회원가입 실패시
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                            } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(join.this);
-                                dialog = builder.setMessage("비밀번호가 동일하지 않습니다.").setNegativeButton("확인", null).create();
-                                dialog.show();
-                                return;
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("err", String.valueOf(e));
-                        }
-
-                    }
-                };
-
-                //서버로 Volley를 이용해서 요청
-                RegisterRequest registerRequest = new RegisterRequest( UserEmail, UserPwd, UserName, Usermobile,responseListener);
-                RequestQueue queue = Volley.newRequestQueue( join.this );
-                queue.add( registerRequest );
             }
         });
     }
+    private void json_available(String UserEmail){
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                    JSONObject jsonResponse = new JSONObject(response);
+                    Log.e("json", String.valueOf(jsonResponse));
+                    JSONObject success_json=jsonResponse.getJSONObject("data");
+                    Log.e("json", String.valueOf(success_json));
+                    boolean success = success_json.getBoolean("available");
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(join.this);
+                    if(success) {
+                        dialog = builder.setMessage("사용할 수 있는 아이디입니다.").setPositiveButton("확인", null).create();
+                        dialog.show();
+                        join_email.setEnabled(false); //아이디값 고정
+                        validate = true; //검증 완료
+                        check_button.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                    }
+                    else {
+                        dialog = builder.setMessage("이미 존재하는 아이디입니다.").setNegativeButton("확인", null).create();
+                        dialog.show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    json_available(UserEmail);
+                }
+            }
+        };
+        ValidateRequest validateRequest = new ValidateRequest(UserEmail, responseListener);
+        RequestQueue queue = Volley.newRequestQueue(join.this);
+        queue.add(validateRequest);
+
+    }
+
+    private void join_success(String UserEmail,String UserPwd,String UserName,String Usermobile,String PassCk,String pwd){
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    Log.d("json", String.valueOf(jsonObject));
+                    JSONObject join_json = jsonObject.getJSONObject( "data");
+                    //boolean success = jsonObject.getBoolean( "success" );
+                    JSONObject User_json=join_json.getJSONObject("user");
+                    String User_Email=User_json.getString("email");
+
+                    Log.d("jsonEmail", String.valueOf(UserEmail));
+                    //회원가입 성공시
+                    if(UserPwd.equals(PassCk)) {
+                        Log.d("UserPwd", String.valueOf(UserPwd));
+                        if (User_Email.equals(UserEmail)) {
+
+                            Toast.makeText(getApplicationContext(), String.format("%s님 가입을 환영합니다.", UserName), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(join.this, login.class);
+                            startActivity(intent);
+
+                            //회원가입 실패시
+                        } else {
+                            Toast.makeText(getApplicationContext(), "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(join.this);
+                        dialog = builder.setMessage("비밀번호가 동일하지 않습니다.").setNegativeButton("확인", null).create();
+                        dialog.show();
+                        return;
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("err", String.valueOf(e));
+                    join_success(UserEmail,UserPwd,UserName,Usermobile,PassCk,pwd);
+                }
+
+            }
+        };
+
+        //서버로 Volley를 이용해서 요청
+        RegisterRequest registerRequest = new RegisterRequest( UserEmail, pwd, UserName, Usermobile,responseListener);
+        RequestQueue queue = Volley.newRequestQueue( join.this );
+        queue.add( registerRequest );
+    }
+    public String getHash(String str) {
+        String digest = "";
+        try{
+
+            //암호화
+            MessageDigest sh = MessageDigest.getInstance("SHA-256"); // SHA-256 해시함수를 사용
+            sh.update(str.getBytes()); // str의 문자열을 해싱하여 sh에 저장
+            byte byteData[] = sh.digest(); // sh 객체의 다이제스트를 얻는다.
+
+            //얻은 결과를 string으로 변환
+            StringBuffer sb = new StringBuffer();
+            for(int i = 0 ; i < byteData.length ; i++) {
+                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            digest = sb.toString();
+        }catch(NoSuchAlgorithmException e) {
+            e.printStackTrace(); digest = null;
+        }
+        return digest;
+    }
+
 }

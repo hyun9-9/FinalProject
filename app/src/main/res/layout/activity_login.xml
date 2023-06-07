@@ -60,10 +60,7 @@
         android:ems="15"
         android:hint="이메일"
         android:inputType="textEmailAddress"
-        android:text="qwe@naver.com"
         android:layout_gravity="center"
-
-
          />
         <TextView
             android:paddingLeft="50dp"
@@ -79,7 +76,6 @@
         android:layout_height="wrap_content"
         android:ems="15"
         android:hint="비밀번호"
-        android:text="123"
         android:inputType="textPassword"
         android:layout_gravity="center"
          />

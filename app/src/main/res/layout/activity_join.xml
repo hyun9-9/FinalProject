@@ -136,7 +136,7 @@
         android:layout_marginBottom="24dp"
         android:ems="15"
         android:backgroundTint="#66B2ff"
-        android:hint="전화번호"
+        android:hint="전화번호 000-0000-0000"
 
 
          />
